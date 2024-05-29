@@ -2,6 +2,7 @@ import { useState  } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const App = () => {
+
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -14,7 +15,6 @@ const App = () => {
     panNo: '',
     aadharNo: '',
   })
-
   const [errors, setErrors] = useState({})
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
@@ -50,6 +50,11 @@ const App = () => {
     if (validate()) {
       navigate('/success', { state: { form } })
     }
+  }
+
+  const navigateToToDoList= (e)=>{
+    e.preventDefault()
+    navigate('/ToDoList')
   }
 
   return (
@@ -119,6 +124,8 @@ const App = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
+
+      <button type='button' onClick={navigateToToDoList}>GO TO TODO LIST</button>
     </div>
   )
 }
