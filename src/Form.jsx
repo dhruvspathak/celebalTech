@@ -1,7 +1,7 @@
 import { useState  } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const App = () => {
+const Form = () => {
 
   const [form, setForm] = useState({
     firstName: '',
@@ -130,4 +130,4 @@ const App = () => {
   )
 }
 
-export default App
+export default Form

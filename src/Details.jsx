@@ -23,6 +23,8 @@ const Details = () => {
         <p>No form data available.</p>
       )}
       <Link to="/">Go Back</Link>
+      <br></br>
+      <Link to='/ToDoList'>Open ToDo</Link>
     </div>
   )
 }
