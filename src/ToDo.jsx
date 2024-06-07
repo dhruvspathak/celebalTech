@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
 
 const ToDo= ()=>{
 
@@ -9,6 +10,8 @@ const ToDo= ()=>{
     const [newTask, setNewTask]= useState('')
     const [sortOrder, setSortOrder]= useState('asc')
     const [filter, setFilter]= useState('all')
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -59,6 +62,11 @@ const ToDo= ()=>{
 
     let displayedTasks = sortFunction(filterFunction([...tasks]))
 
+    const takeToHome= (e)=>{
+        e.preventDefault()
+        navigate('/')
+    }
+
     return(
         <>
         <div>
@@ -94,6 +102,9 @@ const ToDo= ()=>{
                 </li>
             ))}
         </ul>
+        <nav>
+            <button type='button' onClick={takeToHome}>BACK</button>
+        </nav>
         </>
     )
 }

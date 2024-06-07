@@ -57,6 +57,11 @@ const Form = () => {
     navigate('/ToDoList')
   }
 
+  const navigateToDashboard= (e)=>{
+    e.preventDefault()
+    navigate('/AdminDashboard')
+  }
+
   return (
     <div className="container">
       <h1>Registration Form</h1>
@@ -126,6 +131,8 @@ const Form = () => {
       </form>
 
       <button type='button' onClick={navigateToToDoList}>GO TO TODO LIST</button>
+      <br></br>
+      <button type='button' onClick={navigateToDashboard}>ADMIN DASHBOARD</button>
     </div>
   )
 }
