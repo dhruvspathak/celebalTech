@@ -1,5 +1,6 @@
 import { useState  } from 'react'
 import { useNavigate } from 'react-router-dom'
+import './Form.css'
 
 const Form = () => {
 
@@ -63,29 +64,33 @@ const Form = () => {
   }
 
   return (
-    <div className="container">
-      <h1>Registration Form</h1>
+    <div className="form">
+      <h1 className='heading'>Registration Form</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>First Name:</label>
           <input type="text" name="firstName" value={form.firstName} onChange={handleChange} />
           {errors.firstName && <span>{errors.firstName}</span>}
         </div>
+        <br></br>
         <div>
           <label>Last Name:</label>
           <input type="text" name="lastName" value={form.lastName} onChange={handleChange} />
           {errors.lastName && <span>{errors.lastName}</span>}
         </div>
+        <br></br>
         <div>
           <label>Username:</label>
           <input type="text" name="username" value={form.username} onChange={handleChange} />
           {errors.username && <span>{errors.username}</span>}
         </div>
+        <br></br>
         <div>
           <label>Email:</label>
           <input type="email" name="email" value={form.email} onChange={handleChange} />
           {errors.email && <span>{errors.email}</span>}
         </div>
+        <br></br>
         <div>
           <label>Password:</label>
           <input type={showPassword ? 'text' : 'password'} name="password" value={form.password} onChange={handleChange} />
@@ -94,11 +99,13 @@ const Form = () => {
           </button>
           {errors.password && <span>{errors.password}</span>}
         </div>
+        <br></br>
         <div>
           <label>Phone No.:</label>
           <input type="text" name="phoneNo" value={form.phoneNo} onChange={handleChange} />
           {errors.phoneNo && <span>{errors.phoneNo}</span>}
         </div>
+        <br></br>
         <div>
           <label>Country:</label>
           <select name="country" value={form.country} onChange={handleChange}>
@@ -108,6 +115,7 @@ const Form = () => {
           </select>
           {errors.country && <span>{errors.country}</span>}
         </div>
+        <br></br>
         <div>
           <label>City:</label>
           <select name="city" value={form.city} onChange={handleChange}>
@@ -117,11 +125,13 @@ const Form = () => {
           </select>
           {errors.city && <span>{errors.city}</span>}
         </div>
+        <br></br>
         <div>
           <label>PAN No.:</label>
           <input type="text" name="panNo" value={form.panNo} onChange={handleChange} />
           {errors.panNo && <span>{errors.panNo}</span>}
         </div>
+        <br></br>
         <div>
           <label>Aadhar No.:</label>
           <input type="text" name="aadharNo" value={form.aadharNo} onChange={handleChange} />

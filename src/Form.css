@@ -1,0 +1,15 @@
+.form{
+    color: rgb(255, 0, 0);
+    padding: 10px;
+    border: 2px solid blue;
+    background-color: antiquewhite;
+    margin: auto;
+    width: 50%;
+    text-align: left;
+}
+
+.heading{
+    text-decoration: underline;
+    color: blue;
+    text-align: center;
+}
