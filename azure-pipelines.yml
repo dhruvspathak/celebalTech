@@ -1,25 +1,24 @@
-# Starter pipeline
-- task: Checkmarx AST@2
-  inputs:
-    CheckmarxService: 'CheckmarxOne Connection'
-    projectName: 'test1'
-    branchName: 'main'
-    tenantName: 'checkmarx-global-services-internal'
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+  - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'  # Using an Ubuntu hosted agent
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  # Step to run Checkmarx AST task
+  - task: Checkmarx AST@2
+    inputs:
+      CheckmarxService: 'CheckmarxOne Connection'
+      projectName: 'test1'
+      branchName: 'main'
+      tenantName: 'checkmarx-global-services-internal'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  # Simple script task (Hello world)
+  - script: echo Hello, world!
+    displayName: 'Run a one-line script'
+
+  # Multi-line script task
+  - script: |
+      echo Add other tasks to build, test, and deploy your project.
+      echo See https://aka.ms/yaml
+    displayName: 'Run a multi-line script'
