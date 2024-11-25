@@ -2,16 +2,9 @@ trigger:
   - main
 
 pool:
-  vmImage: 'ubuntu-latest'  # Using an Ubuntu hosted agent
+  vmImage: 'ubuntu-latest' 
 
 steps:
-  # Step to run Checkmarx AST task
-  - task: Checkmarx AST@2
-    inputs:
-      CheckmarxService: 'CheckmarxOne Connection'
-      projectName: 'test1'
-      branchName: 'main'
-      tenantName: 'checkmarx-global-services-internal'
 
   # Simple script task (Hello world)
   - script: echo Hello, world!
@@ -22,3 +15,10 @@ steps:
       echo Add other tasks to build, test, and deploy your project.
       echo See https://aka.ms/yaml
     displayName: 'Run a multi-line script'
+
+  - task: Checkmarx AST@2
+    inputs:
+      CheckmarxService: 'CheckmarxOne Connection'
+      projectName: 'test1'
+      branchName: 'main'
+      tenantName: 'checkmarx-global-services-internal'
