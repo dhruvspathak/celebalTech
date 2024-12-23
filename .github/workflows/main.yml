@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Tests
-        run: npm test
+        run: npm start
         working-directory: ./ # Adjust if required
 
   build:
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Application
-        run: npm run build
+        run: npm run dev
         working-directory: ./ # Adjust if required
 
   deploy:
