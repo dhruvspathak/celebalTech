@@ -22,9 +22,15 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Debug Directory Structure
+        run: ls -la
+
       - name: Install Dependencies
         run: npm install
-        working-directory: ./ # Update `subdir` to the folder containing `package.json`
+        working-directory: ./subdir # Update `subdir` to the folder containing `package.json`
 
   tests:
     needs: install_dependencies
@@ -32,12 +38,15 @@ jobs:
     steps:
       - name: Run Tests
         run: npm test
-        
+        working-directory: ./subdir # Update `subdir` to the folder containing `package.json`
 
   dast_scan:
     needs: tests
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
       - name: Run Checkmarx DAST Scan
         uses: Checkmarx/dast-github-action@v2.3.0
         with:
