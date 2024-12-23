@@ -1,0 +1,70 @@
+name: MERN WebApp CI/CD with DAST Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Adjust based on your app requirements
+
+  install_dependencies:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependencies
+        run: npm install
+
+  tests:
+    needs: install_dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Tests
+        run: npm test
+
+  build:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Application
+        run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deployment
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel --prod --token $VERCEL_TOKEN
+
+  dast_scan:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Checkmarx DAST Scan
+        uses: Checkmarx/dast-github-action@v2.3.0
+        with:
+          command: web
+          config: 'zapconfig.yaml'
+          base_url: ${{ secrets.VERCEL_DEPLOYMENT_URL }}
+          environment_id: ${{ secrets.CX_ENVIRONMENT_ID }}
+          verbose: true
+          fail_on: 'HIGH'
+          timeout: 12000
+          log_level: info
