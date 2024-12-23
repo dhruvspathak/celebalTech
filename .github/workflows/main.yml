@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: Run Tests
         run: npm test
-        working-directory: ./ # Update `subdir` to the folder containing `package.json`
+        
 
   dast_scan:
     needs: tests
