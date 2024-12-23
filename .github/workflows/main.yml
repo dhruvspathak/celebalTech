@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Run Tests
         run: npm start
-        working-directory: ./ # Adjust if required
+        
 
   build:
     needs: tests
