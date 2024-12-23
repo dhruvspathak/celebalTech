@@ -30,7 +30,7 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./subdir # Update `subdir` to the folder containing `package.json`
+        working-directory: ./ # Update `subdir` to the folder containing `package.json`
 
   tests:
     needs: install_dependencies
@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: Run Tests
         run: npm test
-        working-directory: ./subdir # Update `subdir` to the folder containing `package.json`
+        working-directory: ./ # Update `subdir` to the folder containing `package.json`
 
   dast_scan:
     needs: tests
