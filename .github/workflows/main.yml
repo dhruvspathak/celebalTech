@@ -15,14 +15,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16' # Adjust based on your app requirements
-
       - name: Debug Directory Structure
-        run: find .
-  
+        run: find . -name "package.json"
+
   install_dependencies:
     needs: setup
     runs-on: ubuntu-latest
@@ -35,36 +30,18 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./ # Adjust if the package.json is in a subdirectory
+        working-directory: ./subdir # Update `subdir` to the folder containing `package.json`
 
   tests:
     needs: install_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Run Tests
-        run: npm start
-        working-directory: ./ # Adjust if required
-
-  build:
-    needs: tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build Application
-        run: npm run dev
-        working-directory: ./ # Adjust if required
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Vercel Deployment
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel --prod --token $VERCEL_TOKEN
-        working-directory: ./ # Adjust if required
+        run: npm test
+        working-directory: ./subdir # Update `subdir` to the folder containing `package.json`
 
   dast_scan:
-    needs: deploy
+    needs: tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -75,7 +52,7 @@ jobs:
         with:
           command: web
           config: 'zapconfig.yaml'
-          base_url: ${{ secrets.VERCEL_DEPLOYMENT_URL }}
+          base_url: ${{ secrets.VERCEL_DEPLOYMENT_URL }}  # URL of your deployed app on Vercel
           environment_id: ${{ secrets.CX_ENVIRONMENT_ID }}
           verbose: true
           fail_on: 'HIGH'
