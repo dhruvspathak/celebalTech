@@ -8,19 +8,19 @@ pr:
     include:
       - main
 
-# Manual trigger equivalent to 'workflow_dispatch'
-resources:
-  pipelines: []
-
 jobs:
 - job: localhost_scan
   displayName: "Localhost Scan"
   pool:
     vmImage: ubuntu-latest
   
+  variables:
+    # Define environment variables (replace CX_APIKEY with the appropriate variable name)
+    CX_APIKEY: $(CX_APIKEY)
+
   steps:
   # Step 1: Checkout the repository
-  - task: Checkout@2
+  - checkout: self
     displayName: "Checkout Repository"
 
   # Step 2: Create output directory
@@ -38,7 +38,7 @@ jobs:
       targetType: inline
       script: |
         docker run --rm --network="host" \
-        -e CX_APIKEY=${{ secrets.CX_APIKEY }} \
+        -e CX_APIKEY=$(CX_APIKEY) \
         -v "$(Pipeline.Workspace):/work-folder" \
         checkmarx/dast:latest web \
         --configFull "/work-folder/localhost_config.yaml" \
