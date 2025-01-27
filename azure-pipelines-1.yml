@@ -2,7 +2,7 @@ jobs:
 - job: localhost_scan
   displayName: "Localhost Scan"
   pool:
-    vmImage: windows-latest  # Use Windows agent
+    name: default  # Use Windows agent
   steps:
   # Step 1: Checkout repository
   - checkout: self
