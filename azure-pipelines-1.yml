@@ -24,7 +24,8 @@ jobs:
     displayName: "Checkout Repository"
 
   # Step 2: Create output directory
-  - script: mkdir -p $(Pipeline.Workspace)/output_fold
+    # Step 2: Create output directory (Windows-compatible)
+  - script: mkdir "$(Pipeline.Workspace)\output_fold"
     displayName: "Create Directory"
 
   # Step 3: Change directory ownership
