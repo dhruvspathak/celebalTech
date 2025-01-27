@@ -12,7 +12,7 @@ jobs:
 - job: localhost_scan
   displayName: "Localhost Scan"
   pool:
-    vmImage: ubuntu-latest
+    name: default
   
   variables:
     # Define environment variables (replace CX_APIKEY with the appropriate variable name)
