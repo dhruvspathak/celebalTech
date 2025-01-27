@@ -1,25 +1,29 @@
 jobs:
 - job: localhost_scan
-  displayName: "Localhost Scan"
+  displayName: "Localhost DAST Scan"
   pool:
-    name: default  # Use Windows agent
+    name: Default  # Make sure to set this to your local agent pool if needed
   steps:
   # Step 1: Checkout repository
   - checkout: self
     displayName: "Checkout Repository"
 
   # Step 2: Create output directory
-  - script: mkdir "$(Pipeline.Workspace)\output_fold"
-    displayName: "Create Directory"
+  - script: |
+      if (-not (Test-Path "$(Pipeline.Workspace)\output_fold")) {
+          New-Item -ItemType Directory -Path "$(Pipeline.Workspace)\output_fold"
+      }
+    displayName: "Create Output Directory"
 
-  # Step 3: Run Checkmarx DAST scan
-  - task: Bash@3
+  # Step 3: Run Checkmarx DAST scan using PowerShell
+  - task: PowerShell@2
     displayName: "Run Checkmarx DAST"
     env:
       CX_APIKEY: $(CX_APIKEY)
     inputs:
       targetType: inline
       script: |
+        # Run Docker Checkmarx DAST CLI scan
         docker run --rm --network="host" `
         -e CX_APIKEY=$(CX_APIKEY) `
         -v "$(Pipeline.Workspace):/work-folder" `
