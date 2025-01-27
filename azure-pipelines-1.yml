@@ -1,0 +1,58 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    include:
+      - main
+
+# Manual trigger equivalent to 'workflow_dispatch'
+resources:
+  pipelines: []
+
+jobs:
+- job: localhost_scan
+  displayName: "Localhost Scan"
+  pool:
+    vmImage: ubuntu-latest
+  
+  steps:
+  # Step 1: Checkout the repository
+  - task: Checkout@2
+    displayName: "Checkout Repository"
+
+  # Step 2: Create output directory
+  - script: mkdir -p $(Pipeline.Workspace)/output_fold
+    displayName: "Create Directory"
+
+  # Step 3: Change directory ownership
+  - script: sudo chown -R 1000:1000 $(Pipeline.Workspace)
+    displayName: "Change Directory Owner"
+
+  # Step 4: Run Checkmarx DAST scan
+  - task: Bash@3
+    displayName: "Checkmarx DAST Scan"
+    inputs:
+      targetType: inline
+      script: |
+        docker run --rm --network="host" \
+        -e CX_APIKEY=${{ secrets.CX_APIKEY }} \
+        -v "$(Pipeline.Workspace):/work-folder" \
+        checkmarx/dast:latest web \
+        --configFull "/work-folder/localhost_config.yaml" \
+        --base-url "https://ind.ast.checkmarx.net" \
+        --environment-id "83c1c65d-db18-475c-a1a6-1fe068b38020" \
+        --output "/work-folder/output_fold"
+
+  # Step 5: Reclaim ownership of the output directory
+  - script: sudo chown -R 1001:1001 $(Pipeline.Workspace)/output_fold
+    displayName: "Reclaim Output Directory"
+
+  # Step 6: Publish scan results
+  - task: PublishPipelineArtifact@1
+    displayName: "Publish Scan Report"
+    inputs:
+      targetPath: $(Pipeline.Workspace)/output_fold
+      artifact: scan-report
