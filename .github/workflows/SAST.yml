@@ -10,28 +10,30 @@ on:
 
 jobs:
   security_scan:
-    name: Checkmarx CxFlow Scan
     runs-on: ubuntu-latest
+    
+    env:
+      CX_FLOW_ENABLED_VULNERABILITY_SCANNERS: sast
+      CX_TEAM: "/CxServer/"
+      CX_USERNAME: ${{ secrets.CX_USERNAME }}
+      CX_PASSWORD: ${{ secrets.CX_PASSWORD }}
+      CX_BASE_URL: ${{ secrets.CX_URL }}
+      CX_CLIENT_SECRET: ${{ secrets.CX_CLIENT_SECRET }}
+      CX_BUG_TRACKER: "Sarif"  # Change to "Jira" if using Jira bug tracker
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Checkmarx CxFlow Action
-        uses: checkmarx-ts/checkmarx-cxflow-github-action@v2.3
-        with:
-          checkmarx_url: ${{ secrets.CX_URL }}
-          team: ${{ secrets.CX_TEAM }}
-          checkmarx_username: ${{ secrets.CX_USERNAME }}
-          checkmarx_password: ${{ secrets.CX_PASSWORD }}
-          checkmarx_client_secret: ${{ secrets.CX_CLIENT_SECRET }}
-          project: "MyApp-CheckmarxScan"
-          app: "MyApp"
-          preset: "High and Medium"
-          break_build: false
-          bug_tracker: "Sarif"
-          incremental: false
-          params: ""
-          github_token: ${{ secrets.GH_TOKEN }}
-          scanners: "sast"
-          java_opts: "-XX:MaxRAMPercentage=75.0"
+      - name: Run Checkmarx Scan
+        run: |
+          echo "Starting Checkmarx Security Scan..."
+          curl -X POST $CX_BASE_URL/api/scans/submit \
+            -H "Authorization: Bearer $CX_CLIENT_SECRET" \
+            -d "team=$CX_TEAM&project=$CX_PROJECT&preset=$CHECKMARX_PRESET&bug_tracker=$CX_BUG_TRACKER"
+          
+    # Optional: Artifacts for storing reports
+    # artifacts:
+    #   paths:
+    #     - checkmarx_report/
+    #   when: always
