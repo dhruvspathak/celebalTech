@@ -32,6 +32,6 @@ jobs:
           bug_tracker: "Sarif"
           incremental: false
           params: ""
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}
           scanners: "sast"
           java_opts: "-XX:MaxRAMPercentage=75.0"
