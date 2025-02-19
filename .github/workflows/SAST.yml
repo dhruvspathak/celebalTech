@@ -11,7 +11,7 @@ on:
 jobs:
   security_scan:
     name: Checkmarx CxFlow Scan
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout Code
@@ -30,7 +30,7 @@ jobs:
           preset: "High and Medium"
           break_build: true
           bug_tracker: "Sarif"
-          incremental: true
+          incremental: false
           params: ""
           github_token: ${{ secrets.GH_TOKEN }}
           scanners: "sast"
