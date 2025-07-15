@@ -1,5 +1,3 @@
-# air-gapped CxSAST
-
 name: CxConsole Scan
 
 on:
@@ -46,7 +44,13 @@ jobs:
           exit 1
         fi
 
+    - name: Generate Access Token
+      id: token
+      run: |
+        # Generate the access token
+        TOKEN=$(./CxConsolePlugin/runCxConsole.sh GenerateToken -v -CxServer http://dhruvp-lt -CxUser dhruvsp -CxPassword GrindAndWin@10
+
     - name: Run CxConsole Scan
       run: |
-        # Run the CxConsole scan using the correct shell script
-        ./CxConsolePlugin/runCxConsole.sh Scan GenerateToken -v -CxServer http://dhruvp-lt -ProjectName "CxServer/Songify" -CxUser dhruvsp -CxPassword GrindAndWin@10 -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -locationBranch main
+        # Run the scan using the generated token
+        ./CxConsolePlugin/runCxConsole.sh Scan -v -CxServer http://dhruvp-lt -CxToken ${{ env.TOKEN }} -ProjectName "CxServer/Songify" -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -LocationBranch main
