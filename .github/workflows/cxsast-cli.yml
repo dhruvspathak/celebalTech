@@ -1,7 +1,7 @@
 # air-gapped CxSAST
 
 name: CxConsole Scan
- 
+
 on:
   push:
     branches:
@@ -9,32 +9,43 @@ on:
   pull_request:
     branches:
       - main
- 
+
 jobs:
   run-cxscan:
     runs-on: ubuntu-latest  # Using a Linux runner
- 
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
- 
+
     - name: Set up CxConsole
       run: |
         # Install required dependencies
         sudo apt-get update
         sudo apt-get install -y unzip curl
- 
+
         # Download CxConsolePlugin
         curl -L https://download.checkmarx.com/9.5.0/Plugins/CxConsolePlugin-1.1.38.zip -o CxConsolePlugin.zip
+        
         # Unzip the downloaded file
         unzip CxConsolePlugin.zip -d CxConsolePlugin
- 
-        # Add CxConsole to the PATH (assuming it contains the necessary executable)
-        export PATH=$PATH:$(pwd)/CxConsolePlugin
- 
-        # Verify if runCxConsole is available
-        ls -l CxConsolePlugin
- 
+
+        # Change into the plugin directory
+        cd CxConsolePlugin
+
+        # List files for debugging
+        echo "Listing contents of the directory after unzipping:"
+        ls -l
+        
+        # Ensure the runCxConsole is executable
+        chmod +x runCxConsole
+
+        # Verify if the executable exists and is executable
+        if [ ! -x "./runCxConsole" ]; then
+          echo "Error: runCxConsole is not executable or missing!"
+          exit 1
+        fi
+
     - name: Run CxConsole Scan
       run: |
         # Run the CxConsole scan
