@@ -49,4 +49,4 @@ jobs:
     - name: Run CxConsole Scan
       run: |
         # Run the CxConsole scan using the correct shell script
-        ./CxConsolePlugin/runCxConsole.sh Scan -v -CxServer http://dhruvp-lt -ProjectName CxServer/Songify -CxUser dhruvsp -CxPassword GrindANdWin@10 -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -locationBranch main
+        ./CxConsolePlugin/runCxConsole.sh Scan -v -CxServer http://dhruvp-lt -ProjectName "CxServer/Songify" -CxUser dhruvsp -CxPassword GrindAndWin@10 -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -locationBranch main
