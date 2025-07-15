@@ -37,19 +37,19 @@ jobs:
         echo "Listing contents of the directory after unzipping:"
         ls -l
         
-        # Ensure the runCxConsole is executable
-        chmod +x runCxConsole
+        # Ensure the runCxConsole.sh script is executable
+        chmod +x runCxConsole.sh
 
         # Verify if the executable exists and is executable
-        if [ ! -x "./runCxConsole" ]; then
-          echo "Error: runCxConsole is not executable or missing!"
+        if [ ! -x "./runCxConsole.sh" ]; then
+          echo "Error: runCxConsole.sh is not executable or missing!"
           exit 1
         fi
 
     - name: Run CxConsole Scan
       run: |
-        # Run the CxConsole scan
-        ./CxConsolePlugin/runCxConsole Scan -v -CxServer http://dhruvp-lt -ProjectName CxServer/Songify -CxUser ${{ secrets.CX_USER }} -CxPassword ${{ secrets.CX_PASSWORD }} -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -locationBranch main
+        # Run the CxConsole scan using the correct shell script
+        ./CxConsolePlugin/runCxConsole.sh Scan -v -CxServer http://dhruvp-lt -ProjectName CxServer/Songify -CxUser ${{ secrets.CX_USER }} -CxPassword ${{ secrets.CX_PASSWORD }} -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -locationBranch main
       env:
         CX_USER: dhruvsp
         CX_PASSWORD: GrindAndWin@10
