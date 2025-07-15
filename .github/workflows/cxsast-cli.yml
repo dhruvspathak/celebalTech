@@ -49,7 +49,4 @@ jobs:
     - name: Run CxConsole Scan
       run: |
         # Run the CxConsole scan using the correct shell script
-        ./CxConsolePlugin/runCxConsole.sh Scan -v -CxServer http://dhruvp-lt -ProjectName CxServer/Songify -CxUser ${{ secrets.CX_USER }} -CxPassword ${{ secrets.CX_PASSWORD }} -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -locationBranch main
-      env:
-        CX_USER: dhruvsp
-        CX_PASSWORD: GrindAndWin@10
+        ./CxConsolePlugin/runCxConsole.sh Scan -v -CxServer http://dhruvp-lt -ProjectName CxServer/Songify -CxUser dhruvsp -CxPassword GrindANdWin@10 -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -locationBranch main
