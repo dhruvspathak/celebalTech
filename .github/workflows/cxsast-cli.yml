@@ -1,0 +1,44 @@
+# air-gapped CxSAST
+
+name: CxConsole Scan
+ 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+ 
+jobs:
+  run-cxscan:
+    runs-on: ubuntu-latest  # Using a Linux runner
+ 
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+ 
+    - name: Set up CxConsole
+      run: |
+        # Install required dependencies
+        sudo apt-get update
+        sudo apt-get install -y unzip curl
+ 
+        # Download CxConsolePlugin
+        curl -L https://download.checkmarx.com/9.5.0/Plugins/CxConsolePlugin-1.1.38.zip -o CxConsolePlugin.zip
+        # Unzip the downloaded file
+        unzip CxConsolePlugin.zip -d CxConsolePlugin
+ 
+        # Add CxConsole to the PATH (assuming it contains the necessary executable)
+        export PATH=$PATH:$(pwd)/CxConsolePlugin
+ 
+        # Verify if runCxConsole is available
+        ls -l CxConsolePlugin
+ 
+    - name: Run CxConsole Scan
+      run: |
+        # Run the CxConsole scan
+        ./CxConsolePlugin/runCxConsole Scan -v -CxServer http://dhruvp-lt -ProjectName CxServer/Songify -CxUser ${{ secrets.CX_USER }} -CxPassword ${{ secrets.CX_PASSWORD }} -LocationType GIT -LocationURL https://github.com/dhruvspathak/Songify.git -locationBranch main
+      env:
+        CX_USER: dhruvsp
+        CX_PASSWORD: GrindAndWin@10
