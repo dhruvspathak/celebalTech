@@ -23,7 +23,6 @@ jobs:
 
           project_name: ${{ github.repository }}
           branch: ${{ github.head_ref || github.ref_name }}
-          # github_token: ${{ secrets.GITHUB_TOKEN }}
 
           additional_params: "--project-groups Inflow --project-tags dhruv-demo --report-format sarif --output-path ."
 
